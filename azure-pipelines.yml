@@ -16,17 +16,31 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    npm ci
+  displayName: 'npm install'
+
+- script: |
     set DB_DATABASE=$(Build.DB_DATABASE) 
     set
   displayName: Set DotEnv variables
   env:
-    aVarFromYaml: someValue
+    ANOTHER_DOTENV_PROP: someValue
 
 - script: |
-    npm install
+    npm run config
     npm run test:unit
     if [ $? -ne 0 ]; then
         exit 1
     fi
+  displayName: 'npm unit testings'
+
+- script: |
+    set DB_DATABASE=$(Build.DB_DATABASE) 
+    set
+  displayName: Set DotEnv variables
+  env:
+    ANOTHER_DOTENV_PROP: someValue
+
+- script: |
     npm run build
   displayName: 'npm install, test and build'
