@@ -27,14 +27,6 @@ steps:
      .env.example
     TargetFolder: '$(Build.BuildDirectory)'
 
-- script: dir
-  workingDirectory: $(Agent.BuildDirectory)
-  displayName: List contents of a folder
-
-- script: dir
-  workingDirectory: $(Agent.ArtifactStagingDirectory)
-  displayName: List contents of a folder
-
 - script: |
     npm run config
     npm run test:unit
