@@ -19,6 +19,10 @@ steps:
     npm ci
   displayName: 'npm install'
 
+- script: |
+    npm run build
+  displayName: 'npm build'
+
 - task: CopyFiles@2
   displayName: 'Copy .env file'
   inputs:
@@ -42,7 +46,3 @@ steps:
   displayName: Set DotEnv variables
   env:
     ANOTHER_DOTENV_PROP: someValue
-
-- script: |
-    npm run build
-  displayName: 'npm build'
