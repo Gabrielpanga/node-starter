@@ -25,7 +25,7 @@ steps:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: |
      .env.example
-    TargetFolder: '$(Build.BuildDirectory)'
+    TargetFolder: '$(Agent.BuildDirectory)'
 
 - script: |
     npm run config
