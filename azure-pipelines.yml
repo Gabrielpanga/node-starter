@@ -28,6 +28,7 @@ steps:
     TargetFolder: '$(Agent.BuildDirectory)'
 
 - script: |
+    ls
     npm run config
     npm run test:unit
     if [ $? -ne 0 ]; then
