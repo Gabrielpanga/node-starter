@@ -18,5 +18,8 @@ steps:
 - script: |
     npm install
     npm run test:unit
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
     npm run build
   displayName: 'npm install, test and build'
