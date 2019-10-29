@@ -28,6 +28,7 @@ steps:
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
 - script: |
+    npm run config
     npm run test:unit
     if [ $? -ne 0 ]; then
         exit 1
