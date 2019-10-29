@@ -25,7 +25,7 @@ steps:
     SourceFolder: '$(Build.SourcesDirectory)'
     Contents: |
      .env.example
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: '$(Build.BuildDirectory)'
 
 - script: dir
   workingDirectory: $(Agent.BuildDirectory)
