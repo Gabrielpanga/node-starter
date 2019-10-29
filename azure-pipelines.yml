@@ -19,8 +19,16 @@ steps:
     npm ci
   displayName: 'npm install'
 
+- task: CopyFiles@2
+  displayName: 'Copy .env file'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+     .env.example
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
 - script: |
-    npm run config && npm run test:unit
+    npm run test:unit
     if [ $? -ne 0 ]; then
         exit 1
     fi
