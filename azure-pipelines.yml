@@ -23,17 +23,9 @@ steps:
     npm run build
   displayName: 'npm build'
 
-- task: CopyFiles@2
-  displayName: 'Copy .env file'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: |
-     .env.example
-    TargetFolder: '$(Agent.BuildDirectory)'
-
 - script: |
+    echo "DB_DATABASE=test" > .env
     ls
-    npm run config
     npm run test:unit
     if [ $? -ne 0 ]; then
         exit 1
