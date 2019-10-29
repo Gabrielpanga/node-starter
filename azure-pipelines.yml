@@ -17,6 +17,12 @@ steps:
 
 - script: |
     set DB_DATABASE=$(Build.DB_DATABASE) 
+    set
+  displayName: Set DotEnv variables
+  env:
+    aVarFromYaml: someValue
+
+- script: |
     npm install
     npm run test:unit
     if [ $? -ne 0 ]; then
