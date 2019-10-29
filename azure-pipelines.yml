@@ -20,13 +20,6 @@ steps:
   displayName: 'npm install'
 
 - script: |
-    set DB_DATABASE=$(Build.DB_DATABASE) 
-    set
-  displayName: Set DotEnv variables
-  env:
-    ANOTHER_DOTENV_PROP: someValue
-
-- script: |
     npm run config
     npm run test:unit
     if [ $? -ne 0 ]; then
@@ -43,4 +36,4 @@ steps:
 
 - script: |
     npm run build
-  displayName: 'npm install, test and build'
+  displayName: 'npm build'
