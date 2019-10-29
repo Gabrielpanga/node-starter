@@ -1,0 +1,40 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    env_file: 
+      - .env
+    container_name: node-graphql-db
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    # Not persisted
+    # volumes:
+    #   - postgres-data:/var/lib/postgresql/data
+    networks:
+      - node-graphql-api
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+
+  app:
+    container_name: node-graphql-app
+    tty: true
+    stdin_open: true
+    build: .
+    networks:
+      - node-graphql-api
+    volumes:
+      - .:/share
+    ports:
+      - 9090:9090
+    depends_on:
+      - db
+
+networks:
+  node-graphql-api:
+
+volumes:
+  postgres-data:

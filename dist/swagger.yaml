@@ -1,0 +1,95 @@
+basePath: /v1
+definitions: {}
+info:
+    description: 'a description'
+    license:
+        name: MIT
+    title: 'Node & GraphQL base starter'
+    version: '1.0'
+paths:
+    /users:
+        get:
+            operationId: UsersList
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            parameters: []
+        post:
+            operationId: UsersCreate
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: user
+                    required: true
+                    schema:
+                        type: object
+        put:
+            operationId: UsersUpdate
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: ""
+                    in: body
+                    name: user
+                    required: true
+                    schema:
+                        type: object
+    '/users/{id}':
+        get:
+            operationId: UsersShow
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            parameters:
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: number
+                    format: double
+        delete:
+            operationId: UsersDelete
+            produces:
+                - text/html
+            responses:
+                '204':
+                    description: 'No content'
+            description: ""
+            parameters:
+                -
+                    description: ""
+                    in: path
+                    name: id
+                    required: true
+                    type: number
+                    format: double
+swagger: '2.0'
+securityDefinitions:
+    api_key:
+        type: apiKey
+        name: access_token
+        in: query
+host: 'localhost:9090'

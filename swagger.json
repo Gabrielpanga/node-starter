@@ -1,0 +1,225 @@
+{
+	"basePath": "/v1",
+	"definitions": {
+		"IUser": {
+			"description": "",
+			"properties": {
+				"id": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"name": {
+					"type": "string",
+					"description": ""
+				},
+				"createdAt": {
+					"type": "string",
+					"format": "date-time",
+					"description": ""
+				},
+				"updatedAt": {
+					"type": "string",
+					"format": "date-time",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"id",
+				"name",
+				"createdAt",
+				"updatedAt"
+			]
+		},
+		"NotFoundError": {
+			"description": "Represents a NOT FOUND error. The server has not found anything matching\nthe Request-URI. No indication is given of whether the condition is temporary\nor permanent. The 410 (GoneError) status code SHOULD be used if the server knows,\nthrough some internally configurable mechanism, that an old resource is permanently\nunavailable and has no forwarding address.\n\nThis error is commonly used when\nthe server does not wish to reveal exactly why the request has been refused,\nor when no other response is applicable.",
+			"properties": {
+				"message": {
+					"type": "string",
+					"description": ""
+				},
+				"statusCode": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				},
+				"name": {
+					"type": "string",
+					"description": ""
+				},
+				"stack": {
+					"type": "string",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"message",
+				"statusCode",
+				"name"
+			]
+		}
+	},
+	"info": {
+		"description": "a description",
+		"license": {
+			"name": "MIT"
+		},
+		"title": "Node & GraphQL base starter",
+		"version": "1.0"
+	},
+	"paths": {
+		"/v1/users": {
+			"get": {
+				"operationId": "UsersList",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieve a list of users.",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/IUser"
+							}
+						}
+					},
+					"204": {
+						"description": "No content",
+						"examples": {
+							"application/json": [
+								null
+							]
+						}
+					}
+				},
+				"description": "Recovers all active users",
+				"parameters": []
+			},
+			"post": {
+				"operationId": "UsersCreate",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"201": {
+						"description": "Created user",
+						"schema": {
+							"$ref": "#/definitions/IUser"
+						}
+					},
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "Creates a user",
+				"consumes": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "body",
+						"name": "user",
+						"required": true,
+						"schema": {
+							"type": "object"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UsersUpdate",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "",
+				"consumes": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"description": "",
+						"in": "body",
+						"name": "user",
+						"required": true,
+						"schema": {
+							"type": "object"
+						}
+					}
+				]
+			}
+		},
+		"/v1/users/{id}": {
+			"get": {
+				"operationId": "UsersShow",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Retrieve a user.",
+						"schema": {
+							"$ref": "#/definitions/IUser"
+						}
+					},
+					"404": {
+						"description": "User not found",
+						"schema": {
+							"$ref": "#/definitions/NotFoundError"
+						}
+					}
+				},
+				"description": "Recovers the user resource by its id",
+				"parameters": [
+					{
+						"description": "user primary identifier",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "number",
+						"format": "double"
+					}
+				]
+			},
+			"delete": {
+				"operationId": "UsersDelete",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"description": "",
+				"parameters": [
+					{
+						"description": "",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "number",
+						"format": "double"
+					}
+				]
+			}
+		}
+	},
+	"swagger": "2.0",
+	"securityDefinitions": {
+		"api_key": {
+			"type": "apiKey",
+			"name": "access_token",
+			"in": "query"
+		}
+	},
+	"host": "localhost:9090"
+}
