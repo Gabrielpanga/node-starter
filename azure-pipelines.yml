@@ -34,8 +34,8 @@ steps:
     ANOTHER_DOTENV_PROP: someValue
 
 - script: |
-    npm run test:integration
+    npm test
     if [ $? -ne 0 ]; then
       exit 1
     fi
-  displayName: 'npm unit integration'
+  displayName: 'npm test'
