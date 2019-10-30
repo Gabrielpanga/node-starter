@@ -24,17 +24,18 @@ steps:
   displayName: 'npm build'
 
 - script: |
-    echo "DB_DATABASE=test" > .env
-    ls
-    npm run test:unit
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
-  displayName: 'npm unit testings'
-
-- script: |
-    set DB_DATABASE=$(Build.DB_DATABASE) 
+    set DB_HOST=$(Build.DB_HOST)
+    set DB_DATABASE=$(Build.DB_DATABASE)
+    set DB_USER=$(Build.DB_USER)
+    set DB_PASSWORD=$(Build.DB_PASSWORD)
     set
   displayName: Set DotEnv variables
   env:
     ANOTHER_DOTENV_PROP: someValue
+
+- script: |
+    npm run test:integration
+    if [ $? -ne 0 ]; then
+      exit 1
+    fi
+    displayName: 'npm unit integration'
