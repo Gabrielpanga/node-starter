@@ -2,14 +2,7 @@ import { DataTypes } from 'sequelize';
 import { database } from '@db';
 import BaseModel from './base.model';
 
-export class IUser {
-  public id!: number;
-  public name!: string;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-}
-
-export class User extends BaseModel implements IUser {
+export class User extends BaseModel {
   public id!: number;
   public name!: string;
   public readonly createdAt!: Date;

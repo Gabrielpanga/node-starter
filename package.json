@@ -8,11 +8,12 @@
   },
   "scripts": {
     "config": "cp .env.example .env",
-    "db:create": "npm run db:setup && npm run db:migrate up",
-    "db:create:test": "npm run db:setup:test && npm run db:migrate:test up",
+    "db:create": "npm run db:setup && npm run db:migrate:schema up && npm run db:migrate:data up",
+    "db:create:test": "npm run db:setup:test  && npm run db:migrate:schema up && npm run db:migrate:data:test up",
     "db:create:all": "npm run build:tsc && npm run db:create && npm run db:create:test",
-    "db:migrate": "node ./scripts/db/migrate.js",
-    "db:migrate:test": "NODE_ENV=test npm run db:migrate",
+    "db:migrate:schema": "node ./scripts/db/schemaMigration.js",
+    "db:migrate:schema:test": "NODE_ENV=test npm run db:migrate",
+    "db:migrate:data": "node ./scripts/db/dataMigration.js",
     "db:seed": "node scripts/db/seed.js",
     "db:setup": "npm run build:tsc && node scripts/db/setup.js",
     "db:setup:test": "NODE_ENV=test npm run db:setup",
@@ -29,8 +30,9 @@
     "start:watch": "nodemon -e js --exec \"node index.js\"",
     "test:unit": "npm run build:tsc && jest test -c jest.unit.config.js",
     "test:integration": "npm run build:tsc && jest test -c jest.integration.config.js",
-    "test:all": "npm run test:unit && npm run test:integration",
-    "swagger": "swaggerGen -c ./swaggerConfig.json -t"
+    "test": "npm run test:unit && npm run test:integration",
+    "swagger": "swaggerGen -c ./swaggerConfig.json -t && sh scripts/docs/swagger-naming.sh",
+    "graphql": "npm run swagger && npx openapi-to-graphql --port=3002 swagger.json --cors"
   },
   "_moduleAliases": {
     "@controllers": "src/controllers",
@@ -53,8 +55,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/express": "^4.16.0",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "faker": "^4.1.0",
@@ -64,16 +66,10 @@
     "prettier": "^1.18.2",
     "sequelize": "^5.20.0",
     "swagger-ui-express": "^4.1.2",
-    "ts-node": "^6.0.3",
-    "tslint": "^5.10.0",
-    "tslint-language-service": "^0.9.9",
-    "tslint-plugin-prettier": "^1.3.0",
-    "typescript": "^3.5.0",
-    "typescript-rest": "^2.2.2",
-    "typescript-rest-swagger": "^1.0.4",
     "umzug": "^2.2.0"
   },
   "devDependencies": {
+    "@types/express": "^4.16.0",
     "@types/bluebird": "^3.5.28",
     "@types/jest": "^24.0.19",
     "@types/node": "^12.11.1",
@@ -83,6 +79,13 @@
     "jest": "^24.9.0",
     "nodemon": "^1.17.5",
     "supertest": "^4.0.2",
-    "ts-jest": "^24.1.0"
+    "typescript": "^3.5.0",
+    "typescript-rest": "^2.2.2",
+    "typescript-rest-swagger": "^1.0.4",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^6.0.3",
+    "tslint": "^5.10.0",
+    "tslint-language-service": "^0.9.9",
+    "tslint-plugin-prettier": "^1.3.0"
   }
 }

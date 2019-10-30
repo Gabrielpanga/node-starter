@@ -8,13 +8,16 @@
     "name": "Node & GraphQL base starter",
     "description": "Node & GraphQL base starter - description",
     "license": "MIT",
-    "basePath": "/v1",
+    "basePath": "/",
     "securityDefinitions": {
       "api_key": {
         "type": "apiKey",
         "name": "access_token",
         "in": "query"
       }
+    },
+    "spec": {
+      "schemes": ["http"]
     }
   }
 }

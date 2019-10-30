@@ -21,7 +21,7 @@ This base project is intended to be used with db ownership from the developer so
 
 You can run the project from your local environemnt, using a dockerized postgres database configured for that!
 
-- `npm run db` starts the docker db environment
+- `npm run docker:db` starts the docker db environment
 - `npm run db:create` setups & migrates the app's database
 - `npm start` starts the server
 
@@ -52,7 +52,8 @@ The following are the current command list:
 - `docker:stop`: stops the docker service (docker-compose down)
 - `db:setup / db:setup:test`: creates the database if it not exists for dev / test environment
 - `db:create / db:create:test`: creates & execute migrations of the database if it not exists for dev / test environment
-- `db:migrate / db:migrate:test`: runs the database migration client for dev / test environment
+- `db:migrate:schema / db:migrate:schema:test`: runs the database migration client of the schema for dev / test environment
+- `db:migrate:data`: runs the database migration client of the data for dev environment
 - `db:seed`: runs the seeds of the project for dev environment
 - `start`: compiles and starts the application
 - `start-dev`: watch the TS files, on a change it builds the hole application and starts.
@@ -73,22 +74,21 @@ A `Migration` is a managed incremental, that can be reversed and that we will tr
 Each migration will get a name to describe what has been changed and a date of the modification.  
 Migrations will patch the database and are available to reverse (down) the changes done.
 
-### Schema Migrations
-
-A schema migration is performed on a database whenever it is necessary to update or revert that database's schema to some newer or older version.
-
-Migrations are configured as SQL files stored under the `db/migrations` folder, that describe the **Schema** modification (Tables, SP, Views, etc) basically db structure.
-This files are required to be stored as `DATE.NAME.up.sql`. Where `DATE` is the current `yyyymmdd` date, and `NAME` is a meaningfull name for the migration we are creating.
-
 To speed things up you can create a new migration doing:
 
 ```
-name=properties npm run db:migrate create
+name=properties npm run db:migrate:schema create
 ```
 
-This will generate two files, `yyyyymmdd.properties.up.sql` and `yyyyymmdd.properties.down.sql`.  
-The **UP** file should have the logic to create and insert all the elements needed to execute that migration.  
-The **DOWN** file should have the logic to decrease the migration, delete exactly what was created and inserted.
+This will generate two files, `yyyyymmdd.properties.up.sql` and `yyyyymmdd.properties.down.sql`.
+
+Or for TS migrations:
+
+```
+name=properties type=ts npm run db:migrate:schema create
+```
+
+This will generate `yyyyymmdd.properties.ts`
 
 The project comes with a helper created to run migrations using `umzug` api and `sequelize` database connection. It supports the following commands:
 
@@ -103,7 +103,30 @@ The project comes with a helper created to run migrations using `umzug` api and 
 Execute a command via:
 
 ```shell
-npm run db:migrate <command>
+npm run db:migrate:(schema/data) <command>
+```
+
+### Schema Migrations
+
+A schema migration is performed on a database whenever it is necessary to update or revert that database's schema to some newer or older version.
+
+Migrations are configured as SQL / TS files stored under the `db/migrations/schema` folder, that describe the **Schema** modification (Tables, SP, Views, etc) basically db structure.
+
+The **UP** file should have the logic to create and insert all the elements needed to execute that migration.  
+The **DOWN** file should have the logic to decrease the migration, delete exactly what was created and inserted.
+
+Every schema migration executed is stored under the `_MigrationsSchema` table.
+
+### Data Migrations
+
+Data migrations work same as **Schema Migrations** since they both use the same migration client. The main diference is that for Data Migrations we are only updating the data of the model and we got the scripts to add them, alter them and also to rollback those changes.
+
+Every data migration executed is stored under the `_MigrationsData` table.
+
+To create a data migration the command is slightly different:
+
+```
+name=properties npm run db:migrate:data create
 ```
 
 ## Tests

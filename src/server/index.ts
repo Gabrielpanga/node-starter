@@ -1,8 +1,9 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import { Server, Errors } from 'typescript-rest';
 import * as swaggerUi from 'swagger-ui-express';
-// import * as Controllers from '@controllers/index';
+import * as Controllers from '@controllers/index';
 
 const swaggerDocument = require('../../swagger.json');
 
@@ -35,11 +36,18 @@ export function getApp() {
       limit: SERVER_PARSER_LIMIT || '2mb'
     })
   );
+  app.use(cors());
 
   app.use(bodyParser.json());
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-  Server.loadServices(app, `${__dirname}/../controllers/*.js`);
+  // Setup swagger
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  app.use('/swagger.json', (_req, res) => res.send(swaggerDocument));
+
+  Object.values(Controllers).map(controller => {
+    Server.buildServices(app, controller);
+  });
+
   app.use(exceptionResolver);
 
   return app;

@@ -1,7 +1,7 @@
 {
-	"basePath": "/v1",
+	"basePath": "/",
 	"definitions": {
-		"IUser": {
+		"User": {
 			"description": "",
 			"properties": {
 				"id": {
@@ -62,7 +62,7 @@
 		}
 	},
 	"info": {
-		"description": "a description",
+		"description": "Node & GraphQL base starter - description",
 		"license": {
 			"name": "MIT"
 		},
@@ -70,7 +70,7 @@
 		"version": "1.0"
 	},
 	"paths": {
-		"/v1/users": {
+		"/users": {
 			"get": {
 				"operationId": "UsersList",
 				"produces": [
@@ -82,7 +82,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/IUser"
+								"$ref": "#/definitions/User"
 							}
 						}
 					},
@@ -107,7 +107,7 @@
 					"201": {
 						"description": "Created user",
 						"schema": {
-							"$ref": "#/definitions/IUser"
+							"$ref": "#/definitions/User"
 						}
 					},
 					"204": {
@@ -125,22 +125,26 @@
 						"name": "user",
 						"required": true,
 						"schema": {
-							"type": "object"
+							"$ref": "#/definitions/User"
 						}
 					}
 				]
 			},
-			"put": {
+			"patch": {
 				"operationId": "UsersUpdate",
 				"produces": [
 					"application/json"
 				],
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Update the user that was sent",
+						"schema": {
+							"type": "number",
+							"format": "double"
+						}
 					}
 				},
-				"description": "",
+				"description": "Updates the user",
 				"consumes": [
 					"application/json"
 				],
@@ -151,13 +155,13 @@
 						"name": "user",
 						"required": true,
 						"schema": {
-							"type": "object"
+							"$ref": "#/definitions/User"
 						}
 					}
 				]
 			}
 		},
-		"/v1/users/{id}": {
+		"/users/{id}": {
 			"get": {
 				"operationId": "UsersShow",
 				"produces": [
@@ -167,7 +171,7 @@
 					"200": {
 						"description": "Retrieve a user.",
 						"schema": {
-							"$ref": "#/definitions/IUser"
+							"$ref": "#/definitions/User"
 						}
 					},
 					"404": {
@@ -195,14 +199,18 @@
 					"application/json"
 				],
 				"responses": {
-					"204": {
-						"description": "No content"
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"type": "number",
+							"format": "double"
+						}
 					}
 				},
-				"description": "",
+				"description": "Delete the user by its id",
 				"parameters": [
 					{
-						"description": "",
+						"description": "user primary identifier",
 						"in": "path",
 						"name": "id",
 						"required": true,
@@ -221,5 +229,8 @@
 			"in": "query"
 		}
 	},
-	"host": "localhost:9090"
+	"host": "localhost:9090",
+	"schemes": [
+		"http"
+	]
 }

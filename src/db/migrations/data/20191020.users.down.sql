@@ -1,0 +1,1 @@
+DELETE FROM USERS WHERE NAME = 'Gabriel';
