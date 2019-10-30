@@ -23,7 +23,7 @@ steps:
   displayName: 'npm build'
 
 - script: |
-    npm run test:unit
+    npm run test:unit --ci --reporters=jest-junit --reporters=default
     if [ $? -ne 0 ]; then
       exit 1
     fi
