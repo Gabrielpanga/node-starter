@@ -28,8 +28,8 @@
     "start": "npm run build:tsc && node index.js",
     "start-dev": "nodemon",
     "start:watch": "nodemon -e js --exec \"node index.js\"",
-    "test:unit": "npm run build:tsc && jest test -c jest.unit.config.js",
-    "test:integration": "npm run build:tsc && jest test -c jest.integration.config.js",
+    "test:unit": "jest test -c jest.unit.config.js",
+    "test:integration": "jest test -c jest.integration.config.js --detectOpenHandles",
     "test": "npm run test:unit && npm run test:integration",
     "swagger": "swaggerGen -c ./swaggerConfig.json -t && sh scripts/docs/swagger-naming.sh",
     "graphql": "npm run swagger && npx openapi-to-graphql --port=3002 swagger.json --cors"

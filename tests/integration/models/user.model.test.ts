@@ -18,7 +18,7 @@ describe('User', () => {
           name: userFactory.getFaker().random.alphaNumeric(129)
         });
 
-        expect(User.create(userParams)).rejects.toThrowError();
+        await expect(User.create(userParams)).rejects.toThrowError();
       });
     });
   });
