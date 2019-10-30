@@ -31,6 +31,7 @@ steps:
   displayName: 'npm test unit'
 
 - script: |
+    rm .env.test
     set DB_HOST=$(Build.DB_HOST)
     set DB_DATABASE=jaqvfnxo
     set DB_USER=$(Build.DB_USER)
