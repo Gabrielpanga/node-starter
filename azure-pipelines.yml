@@ -32,7 +32,7 @@ steps:
 
 - script: |
     set DB_HOST=$(Build.DB_HOST)
-    set DB_DATABASE=$(Build.DB_DATABASE)
+    set DB_DATABASE=jaqvfnxo
     set DB_USER=$(Build.DB_USER)
     set DB_PASSWORD=$(Build.DB_PASSWORD)
     set
