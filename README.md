@@ -1,4 +1,4 @@
-# Base Node + GraphQL project
+# Base Node project
 
 ## 👋 Intro
 
