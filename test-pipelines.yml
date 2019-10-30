@@ -49,6 +49,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '~/junit.xml'
+    testResultsFiles: '**/junit.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)'
     mergeTestResults: true
     testRunTitle: 'Publish result'
