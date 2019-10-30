@@ -19,30 +19,23 @@ steps:
     npm ci
   displayName: 'npm install'
 
-- task: CopyFiles@2
-  displayName: 'Copy .env file'
-  inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: |
-     .env.example
-    TargetFolder: '$(Agent.BuildDirectory)'
+- script: |
+    npm run build
+  displayName: 'npm build'
 
 - script: |
-    ls
-    npm run config
-    npm run test:unit
-    if [ $? -ne 0 ]; then
-        exit 1
-    fi
-  displayName: 'npm unit testings'
-
-- script: |
-    set DB_DATABASE=$(Build.DB_DATABASE) 
+    set DB_HOST=$(Build.DB_HOST)
+    set DB_DATABASE=$(Build.DB_DATABASE)
+    set DB_USER=$(Build.DB_USER)
+    set DB_PASSWORD=$(Build.DB_PASSWORD)
     set
   displayName: Set DotEnv variables
   env:
     ANOTHER_DOTENV_PROP: someValue
 
 - script: |
-    npm run build
-  displayName: 'npm build'
+    npm run test:integration
+    if [ $? -ne 0 ]; then
+      exit 1
+    fi
+    displayName: 'npm unit integration'
