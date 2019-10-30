@@ -23,7 +23,7 @@ steps:
   displayName: 'npm build'
 
 - script: |
-    npm run test:unit --ci --reporters=jest-junit --reporters=default
+    npm run test:unit
     if [ $? -ne 0 ]; then
       exit 1
     fi
@@ -49,6 +49,6 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TEST-*.xml'
+    testResultsFiles: junit.xml'
     mergeTestResults: true
     testRunTitle: 'Publish result'
