@@ -24,6 +24,13 @@ steps:
   displayName: 'npm build'
 
 - script: |
+    npm test:unit
+    if [ $? -ne 0 ]; then
+      exit 1
+    fi
+  displayName: 'npm test unit'
+
+- script: |
     set DB_HOST=$(Build.DB_HOST)
     set DB_DATABASE=$(Build.DB_DATABASE)
     set DB_USER=$(Build.DB_USER)
@@ -34,8 +41,8 @@ steps:
     ANOTHER_DOTENV_PROP: someValue
 
 - script: |
-    npm test
+    npm test:integration
     if [ $? -ne 0 ]; then
       exit 1
     fi
-  displayName: 'npm test'
+  displayName: 'npm test integration'
