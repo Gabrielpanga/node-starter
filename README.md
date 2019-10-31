@@ -1,41 +1,91 @@
-# Base Node project
+# NodeJS project starter
 
 ## 👋 Intro
 
-This is basic nodejs + graphQl project starter that will be used for any NodeJS application.
+This is basic Nodejs project starter. Its goal is to offer a simple way to start new api applications. It offers:
+
+- Models
+- Controllers
+- Services
+- Migrations
+- Environment specific configurations
+- Docker development environment
+- Tests
 
 ## Running the project
 
-This base project is intended to be used with db ownership from the developer so there are multiple scripts created to manage the database.
+### Dependencies
 
-### Plug & Play
+- Install [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/)
 
-- clone this project on <project_name>
-- cd <project_name>
-- `npm run config` creates an `env` file with the example config
-- `npm i -g typescript` to install on your local environment typescript
-- `npm run docker:start` starts the docker environment
-- visit `http://localhost:9090`
+### Commands
 
-### Running from you local env with docker database
+1. clone this project
+2. run `cd <project_name>`
+3. run `npm run config`
+4. run `npm run docker:start:dev`
+5. run `npm install`
+6. run `npm run db:create:all`
+7. run `npm start`
 
-You can run the project from your local environemnt, using a dockerized postgres database configured for that!
+visit `http://localhost:9090/users`
 
-- `npm run docker:db` starts the docker db environment
-- `npm run db:create` setups & migrates the app's database
-- `npm start` starts the server
+## Tests
 
-### Running with optimized watch options on VSCode
+The project contains unit & integrations tests to cover the full solution.
 
-If you are running this project using VSCode it supports running background tasks that were preconfigured
-and are present under the `.vscode` folder.
+### Running:
 
-- On Mac `CMD+Shift+B` or Windows `Ctrl+Shift+B` setups a separete shell named `build-watch`
-  that watchs for changes on any TS file and builds it automatically.
-- `npm start:watch` starts the server, watching to the result of the build process.
+All: `npm test`
 
-The reasoning of doing this is that the watch build process only compiles the modified TS file everytime.
-This way the build process never takes more than a second and we can avoid building the full application on every change.
+Unit: `npm test:unit`
+
+Integration: `npm test:integration`
+
+For more information about our tests:
+
+- [General](tests/README.md) - Test general guidelines
+- [Unit](tests/unit/README.md) - Unit testing guidelines
+- [Integration](tests/integration/README.md) - Integration testing guidelines
+
+## Project Structure
+
+The full folder structure of this app is explained below:
+
+| Name                                             | Description                                                                                |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| **.vscode**                                      | Contains VS Code specific settings                                                         |
+| **dist**                                         | Contains the distributable (or output) from the TypeScript build. This is the code we ship |
+| **src**                                          | Contains the source code                                                                   |
+| **src/config**                                   | Contains the project general configuration                                                 |
+| [**src/controllers**](src/controllers/README.md) | Controllers define functions that respond to various http requests                         |
+| [**src/models**](src/models/README.md)           | Models define Sequelize schemas that will be used in storing and retrieving data           |
+| **src/server**                                   | Server methods to run the server                                                           |
+| **src/services**                                 | Services that group logic to process information                                           |
+| **src/types**                                    | Holds .d.ts files not found on DefinitelyTyped.                                            |
+| **src**/index.ts                                 | Entry point to the express app                                                             |
+| [**tests**](tests/README.md)                     | Contains the tests                                                                         |
+
+## Contributing guidelines
+
+### Branches
+
+The name of the branch should follow:
+
+- fix/fix-name
+- feature/feature-name
+
+### Commits
+
+We are using [Codelitt's commit styleguide](https://github.com/codelittinc/incubator-resources/blob/master/engineering/dev_best_practices/project-structure/commits.md)
+
+### Steps
+
+- Create a branch from the default branch
+- Create one commit per fix/feature
+- Create a pull request
+- Request someone to review it
+- Once approved, rebase and merge
 
 ## NPM Scripts
 
@@ -56,8 +106,8 @@ The following are the current command list:
 - `db:migrate:data`: runs the database migration client of the data for dev environment
 - `db:seed`: runs the seeds of the project for dev environment
 - `start`: compiles and starts the application
-- `start-dev`: watch the TS files, on a change it builds the hole application and starts.
-- `start:watch`: watch the JS files, on a change it starts the application. (It depends on the VSCode task `build-watch`)
+- `start:dev`: watch the TS files, on a change it builds the hole application and starts.
+- `start:prod`: starts the application using node for built js.
 - `test:unit`: runs the unit tests
 - `test:integration`: runs the integration tests on the test environment
 - `test:all`: runs all test types
@@ -67,114 +117,6 @@ Execute a command via:
 ```shell
 npm run <command>
 ```
-
-## Migrations
-
-A `Migration` is a managed incremental, that can be reversed and that we will track as a change request over the project under the version control.  
-Each migration will get a name to describe what has been changed and a date of the modification.  
-Migrations will patch the database and are available to reverse (down) the changes done.
-
-To speed things up you can create a new migration doing:
-
-```
-name=properties npm run db:migrate:schema create
-```
-
-This will generate two files, `yyyyymmdd.properties.up.sql` and `yyyyymmdd.properties.down.sql`.
-
-Or for TS migrations:
-
-```
-name=properties type=ts npm run db:migrate:schema create
-```
-
-This will generate `yyyyymmdd.properties.ts`
-
-The project comes with a helper created to run migrations using `umzug` api and `sequelize` database connection. It supports the following commands:
-
-- `status`: print current migration status
-- `create`: creates migration sql files under `db/migrations`
-- `up/migrate`: executed all unexecuted migrations
-- `down/reset`: revert all executed migrations
-- `next/migrate-next`: execute the next pending migration
-- `prev/reset-prev`: revert the previous executed migration
-- `reset-hard`: reset the database using a `dropdb`/`createdb` postgres command
-
-Execute a command via:
-
-```shell
-npm run db:migrate:(schema/data) <command>
-```
-
-### Schema Migrations
-
-A schema migration is performed on a database whenever it is necessary to update or revert that database's schema to some newer or older version.
-
-Migrations are configured as SQL / TS files stored under the `db/migrations/schema` folder, that describe the **Schema** modification (Tables, SP, Views, etc) basically db structure.
-
-The **UP** file should have the logic to create and insert all the elements needed to execute that migration.  
-The **DOWN** file should have the logic to decrease the migration, delete exactly what was created and inserted.
-
-Every schema migration executed is stored under the `_MigrationsSchema` table.
-
-### Data Migrations
-
-Data migrations work same as **Schema Migrations** since they both use the same migration client. The main diference is that for Data Migrations we are only updating the data of the model and we got the scripts to add them, alter them and also to rollback those changes.
-
-Every data migration executed is stored under the `_MigrationsData` table.
-
-To create a data migration the command is slightly different:
-
-```
-name=properties npm run db:migrate:data create
-```
-
-## Tests
-
-The project contains unit & integrations tests to cover the full solution. All tests must be updated and never skipped over every change request.
-
-To run all tests:
-
-```
-npm test
-```
-
-For more information about test:
-
-- [General](tests/README.md) - Test general guidelines
-- [Unit](tests/unit/README.md) - Unit testing guidelines
-- [Integration](tests/integration/README.md) - Integration testing guidelines
-
-## Project Structure
-
-The full folder structure of this app is explained below:
-
-| Name                | Description                                                                                    |
-| ------------------- | ---------------------------------------------------------------------------------------------- |
-| **.vscode**         | Contains VS Code specific settings                                                             |
-| **dist**            | Contains the distributable (or output) from your TypeScript build. This is the code we ship    |
-| **node_modules**    | Contains all your npm dependencies                                                             |
-| **src**             | Contains your source code that will be compiled to the dist dir                                |
-| **src/config**      | Configuration and initializer are provided here for DB, DotEnv, etc                            |
-| **src/controllers** | Controllers define functions that respond to various http requests                             |
-| **src/models**      | Models define Sequelize schemas that will be used in storing and retrieving data from Postgres |
-| **src/server**      | Server methods to run the express server                                                       |
-| **src/services**    | Services that group logic to access information                                                |
-| **src/types**       | Holds .d.ts files not found on DefinitelyTyped.                                                |
-| **src**/index.ts    | Entry point to your express app                                                                |
-| **test**            | Contains our tests. Separate from source because there is a different build process.           |
-| .env.example        | API keys, tokens, passwords, database URI. For sensible information please use 1Password.      |
-| jest.\*.config.js   | Used to configure Jest running unit & integrations tests written in TypeScript                 |
-| package.json        | File that contains npm dependencies                                                            |
-| tsconfig.json       | Config settings for compiling server code written in TypeScript                                |
-| tslint.json         | Config settings for formatting server code written in TypeScript                               |
-
-## Contributing guidelines
-
-- Create a branch from the latest master template
-- Wrap all your changes in a single commit, rebase if needed to `fixup` the changes.
-- Rebase from master before submitting PR
-- When PR is approved, avoid commiting the `Merge Commit`
 
 ## Built With
 

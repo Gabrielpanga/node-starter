@@ -1,10 +1,10 @@
 # Controllers
 
-Controllers are classes that are called upon an HTTP request for an specific route, and will understand the request, process the response and return it.
+Controllers are classes that are called upon an HTTP request for an specific route, their goal is to process the response and return it. We are working with the [_Skinny Controllers, Fat Services_](https://medium.com/marmolabs/skinny-models-skinny-controllers-fat-services-e04cfe2d6ae) approach. This means that we shouldn't have any logic related code on the controllers, only on the services. The controllers should only communicate to the Models or Services.
 
 ## CRUD Operations
 
-Following the OpenAPI3 the basic crud operations are the following:
+We are following the OpenAPI3 basic crud operations, this means that the only public methods allowed on our controllers are:
 
 - `create` : Adds a new object of the entity
 - `update` : Updates the object sent by the route's id
@@ -12,11 +12,4 @@ Following the OpenAPI3 the basic crud operations are the following:
 - `list` : Returns all the object of the entity.
 - `delete` : Deletes an entity
 
-This methods will be mapped to specific verbs following the OpenAPI specification.
-This will be found under `src/server/routes`, where we are storing all routes to see the whole endpoint picture in a single place.
-
-## Accessing Data
-
-Designed to avoid having business logic spread through repositories and models, we have decided that the data access will by only done through the Model it self.
-For example, to access the users we will have to call the Model class `User` in `src/models/user.model`.
-All the business logic must be stored under the model it self.
+These methods will be mapped to specific verbs following the OpenAPI specification.

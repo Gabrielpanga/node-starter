@@ -42,7 +42,7 @@ export function getApp() {
 
   // Setup swagger
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-  app.use('/swagger.json', (_req, res) => res.send(swaggerDocument));
+  app.use('/docs.json', (_req, res) => res.send(swaggerDocument));
 
   Object.values(Controllers).map(controller => {
     Server.buildServices(app, controller);

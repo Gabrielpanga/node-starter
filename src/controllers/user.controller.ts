@@ -10,7 +10,9 @@ import {
 } from 'typescript-rest';
 import { Response, Produces, Example } from 'typescript-rest-swagger';
 import { NotFoundError } from 'typescript-rest/dist/server/model/errors';
-import { userExample, IUser } from './doc/user';
+import { userExample } from './docs/user';
+import { IUser } from './types/user';
+import { CountResponse } from './types/common';
 
 @Path('/users')
 @Produces('application/json')
@@ -54,13 +56,21 @@ export class UsersController {
 
   /**
    * Updates the user
+   * @param id user primary identifier
    */
+  @Path('/:id')
   @PATCH
   @Example<IUser>(userExample)
-  @Response<number>(200, 'Update the user that was sent')
-  async update(user: IUser): Promise<number> {
-    const result = await User.updateOne(user);
-    return result[0];
+  @Response<IUser>(200, 'Update the user that was sent')
+  async update(
+    @PathParam('id') id: number,
+    user: IUser
+  ): Promise<IUser | null> {
+    const result = await User.updateOne({ ...user, id });
+    if (result) {
+      return result as any;
+    }
+    throw new Errors.NotFoundError('User not found');
   }
 
   /**
@@ -69,7 +79,12 @@ export class UsersController {
    */
   @Path('/:id')
   @DELETE
-  async delete(@PathParam('id') id: number): Promise<number> {
-    return await User.deleteOne(id);
+  @Response<CountResponse>(200, 'User was deleted')
+  async delete(@PathParam('id') id: number): Promise<CountResponse> {
+    const result = await User.deleteOne(id);
+    if (result) {
+      return new CountResponse(result);
+    }
+    throw new Errors.NotFoundError('User not found');
   }
 }

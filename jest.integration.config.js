@@ -11,4 +11,5 @@ module.exports = {
     "^@config(.*)$": "<rootDir>/src/config$1",
     "^@server(.*)$": "<rootDir>/src/server$1"
   },
+  reporters: [ "default", "jest-junit" ]
 };

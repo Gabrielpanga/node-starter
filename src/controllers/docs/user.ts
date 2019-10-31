@@ -1,9 +1,4 @@
-export interface IUser {
-  id: number;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IUser } from '@controllers/types/user';
 
 export const userExample: IUser = {
   id: 1,
