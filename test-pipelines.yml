@@ -46,6 +46,7 @@ steps:
       exit 1
     fi
   displayName: 'npm test integration'
+
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
