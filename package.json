@@ -28,8 +28,8 @@
     "start": "ts-node index.ts",
     "start:dev": "nodemon",
     "start:prod": "node index.js",
-    "test:unit": "jest test -c jest.unit.config.js",
-    "test:integration": "jest test -c jest.integration.config.js",
+    "test:unit": "jest test --ci --reporters=jest-junit --reporters=default -c jest.unit.config.js",
+    "test:integration": "jest test --ci --reporters=jest-junit --reporters=default -c jest.integration.config.js",
     "test": "npm run test:unit && npm run test:integration",
     "swagger": "swaggerGen -c ./swaggerConfig.json -t",
     "graphql": "npm run swagger && npx openapi-to-graphql --port=9091 swagger.json --cors"
