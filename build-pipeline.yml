@@ -23,9 +23,10 @@ steps:
     npm run build
   displayName: 'npm build'
 
-- task: Docker@2
-  displayName: Build the image
+- task: DockerCompose@0
   inputs:
-    repository: gabrielcodelitt.azurecr.io
-    command: build
-    Dockerfile: Dockerfile
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Azure'
+    azureContainerRegistry: '{"loginServer":"gabrielcodelitt.azurecr.io", "id" : "/subscriptions/3d875e0d-1e89-4e37-9099-816a39f8eeeb/resourceGroups/default/providers/Microsoft.ContainerRegistry/registries/gabrielcodelitt"}'
+    dockerComposeFile: '**/docker-compose.yml'
+    action: 'Push services'
