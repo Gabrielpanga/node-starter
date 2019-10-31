@@ -22,3 +22,11 @@ steps:
 - script: |
     npm run build
   displayName: 'npm build'
+
+steps:
+- task: Docker@2
+  displayName: Build the image
+  inputs:
+    repository: gabrielcodelitt.azurecr.io
+    command: build
+    Dockerfile: Dockerfile
