@@ -1,7 +1,7 @@
 {
 	"basePath": "/",
 	"definitions": {
-		"User": {
+		"IUser": {
 			"description": "",
 			"properties": {
 				"id": {
@@ -26,10 +26,7 @@
 			},
 			"type": "object",
 			"required": [
-				"id",
-				"name",
-				"createdAt",
-				"updatedAt"
+				"name"
 			]
 		},
 		"NotFoundError": {
@@ -59,6 +56,20 @@
 				"statusCode",
 				"name"
 			]
+		},
+		"CountResponse": {
+			"description": "",
+			"properties": {
+				"count": {
+					"type": "number",
+					"format": "double",
+					"description": ""
+				}
+			},
+			"type": "object",
+			"required": [
+				"count"
+			]
 		}
 	},
 	"info": {
@@ -82,7 +93,7 @@
 						"schema": {
 							"type": "array",
 							"items": {
-								"$ref": "#/definitions/User"
+								"$ref": "#/definitions/IUser"
 							}
 						}
 					},
@@ -107,7 +118,7 @@
 					"201": {
 						"description": "Created user",
 						"schema": {
-							"$ref": "#/definitions/User"
+							"$ref": "#/definitions/IUser"
 						}
 					},
 					"204": {
@@ -125,37 +136,7 @@
 						"name": "user",
 						"required": true,
 						"schema": {
-							"$ref": "#/definitions/User"
-						}
-					}
-				]
-			},
-			"patch": {
-				"operationId": "UsersUpdate",
-				"produces": [
-					"application/json"
-				],
-				"responses": {
-					"200": {
-						"description": "Update the user that was sent",
-						"schema": {
-							"type": "number",
-							"format": "double"
-						}
-					}
-				},
-				"description": "Updates the user",
-				"consumes": [
-					"application/json"
-				],
-				"parameters": [
-					{
-						"description": "",
-						"in": "body",
-						"name": "user",
-						"required": true,
-						"schema": {
-							"$ref": "#/definitions/User"
+							"$ref": "#/definitions/IUser"
 						}
 					}
 				]
@@ -171,7 +152,7 @@
 					"200": {
 						"description": "Retrieve a user.",
 						"schema": {
-							"$ref": "#/definitions/User"
+							"$ref": "#/definitions/IUser"
 						}
 					},
 					"404": {
@@ -193,6 +174,43 @@
 					}
 				]
 			},
+			"patch": {
+				"operationId": "UsersUpdate",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Update the user that was sent",
+						"schema": {
+							"$ref": "#/definitions/IUser"
+						}
+					}
+				},
+				"description": "Updates the user",
+				"consumes": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"description": "user primary identifier",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"type": "number",
+						"format": "double"
+					},
+					{
+						"description": "",
+						"in": "body",
+						"name": "user",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/IUser"
+						}
+					}
+				]
+			},
 			"delete": {
 				"operationId": "UsersDelete",
 				"produces": [
@@ -200,10 +218,9 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Ok",
+						"description": "User was deleted",
 						"schema": {
-							"type": "number",
-							"format": "double"
+							"$ref": "#/definitions/CountResponse"
 						}
 					}
 				},

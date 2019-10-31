@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    "outDir": "dist",
     "module": "commonjs",
     "target": "es2017",
     "diagnostics": true,
@@ -32,6 +33,6 @@
       "@config/*": ["src/config/*"]
     }
   },
-  "include": ["./**/*"],
-  "exclude": ["node_modules", "test", "dist"]
+  "include": ["./src/**.*", "index.ts"],
+  "exclude": ["*.d.ts", "*.js"]
 }
