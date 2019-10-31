@@ -15,15 +15,16 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
-- script: |
-    npm ci
-  displayName: 'npm install'
-
-- script: |
-    npm run build
-  displayName: 'npm build'
-
 - task: DockerCompose@0
+  displayName: 'Build image'
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    azureSubscription: 'Azure'
+    azureContainerRegistry: '{"loginServer":"gabrielcodelitt.azurecr.io", "id" : "/subscriptions/3d875e0d-1e89-4e37-9099-816a39f8eeeb/resourceGroups/default/providers/Microsoft.ContainerRegistry/registries/gabrielcodelitt"}'
+    dockerComposeFile: '**/docker-compose.prod.yml'
+    action: 'Build services'
+- task: DockerCompose@0
+  displayName: 'Push image'
   inputs:
     containerregistrytype: 'Azure Container Registry'
     azureSubscription: 'Azure'
