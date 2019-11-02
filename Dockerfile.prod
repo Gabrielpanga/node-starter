@@ -12,9 +12,9 @@ RUN npm ci
 
 COPY ./ /share
 
-RUN npm run build
+RUN cd /share && npm run build
 
-COPY ./share/dist ./share
+RUN cp -r /share/dist/. /share/
 
 # Bind to all network interfaces so that it can be mapped to the host OS
 ENV SERVER_PORT=9090
