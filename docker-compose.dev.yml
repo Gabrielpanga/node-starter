@@ -2,11 +2,16 @@ version: '3'
 services:
   db:
     image: postgres
+    env_file: 
+      - .env
     container_name: node-graphql-db
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+    # Not persisted
+    # volumes:
+    #   - postgres-data:/var/lib/postgresql/data
     networks:
       - node-graphql-api
     expose:
@@ -16,8 +21,9 @@ services:
 
   app:
     container_name: node-graphql-app
-    image: gabrielcodelitt.azurecr.io/gabrielpanganodestarter_app:latest
+    tty: true
     stdin_open: true
+    build: .
     networks:
       - node-graphql-api
     volumes:

@@ -12,7 +12,9 @@ COPY --chown=node package*.json ./
 
 RUN npm ci
 
-ADD ./ /share
+RUN npm run build
+
+COPY ./dist .
 
 # Bind to all network interfaces so that it can be mapped to the host OS
 ENV SERVER_PORT=9090

@@ -16,8 +16,11 @@ services:
 
   app:
     container_name: node-graphql-app
-    image: gabrielcodelitt.azurecr.io/gabrielpanganodestarter_app:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
     stdin_open: true
+    build: .
     networks:
       - node-graphql-api
     volumes:
