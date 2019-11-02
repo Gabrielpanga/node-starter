@@ -9,11 +9,11 @@ WORKDIR /share
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY --chown=node package*.json ./
+ADD ./ /share
 
 RUN npm ci
 
 RUN npm run build
-
 COPY ./dist .
 
 # Bind to all network interfaces so that it can be mapped to the host OS
