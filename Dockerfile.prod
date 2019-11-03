@@ -17,7 +17,6 @@ RUN cd /share && npm run build
 RUN cp -r /share/dist/. /share/
 
 # Bind to all network interfaces so that it can be mapped to the host OS
-ENV SERVER_PORT=9090
-EXPOSE ${SERVER_PORT}
+EXPOSE 8080
 
-CMD [ "npm", "run", "start:prod" ] 
+CMD node ./index.js
