@@ -1,5 +1,5 @@
 # Check out https://hub.docker.com/_/node to select a new base image
-FROM node:10-slim
+FROM node:10.17-slim
 
 WORKDIR /share
 
@@ -17,6 +17,7 @@ RUN cd /share && npm run build
 RUN cp -r /share/dist/. /share/
 
 # Bind to all network interfaces so that it can be mapped to the host OS
-EXPOSE 8080
+ENV SERVER_PORT=8080
+EXPOSE ${SERVER_PORT}
 
 CMD node ./index.js
