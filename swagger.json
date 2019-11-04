@@ -246,7 +246,6 @@
 			"in": "query"
 		}
 	},
-	"host": "localhost:9090",
 	"schemes": [
 		"http"
 	]
