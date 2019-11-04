@@ -20,4 +20,4 @@ RUN cp -r /share/dist/. /share/
 ENV SERVER_PORT=8080
 EXPOSE ${SERVER_PORT}
 
-CMD node ./index.js
+CMD npm run db:create && node ./index.js
