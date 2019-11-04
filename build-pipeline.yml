@@ -22,7 +22,10 @@ steps:
     azureSubscription: 'Azure'
     azureContainerRegistry: '{"loginServer":"gabrielcodelitt.azurecr.io", "id" : "/subscriptions/3d875e0d-1e89-4e37-9099-816a39f8eeeb/resourceGroups/default/providers/Microsoft.ContainerRegistry/registries/gabrielcodelitt"}'
     dockerComposeFile: '**/docker-compose.ci.yml'
+    projectName: node-starter-codelitt
+    additionalImageTags: $(Build.BuildId)
     action: 'Build services'
+
 - task: DockerCompose@0
   displayName: 'Push image'
   inputs:
@@ -31,3 +34,5 @@ steps:
     azureContainerRegistry: '{"loginServer":"gabrielcodelitt.azurecr.io", "id" : "/subscriptions/3d875e0d-1e89-4e37-9099-816a39f8eeeb/resourceGroups/default/providers/Microsoft.ContainerRegistry/registries/gabrielcodelitt"}'
     dockerComposeFile: '**/docker-compose.ci.yml'
     action: 'Push services'
+    projectName: node-starter-codelitt
+    additionalImageTags: $(Build.BuildId)
