@@ -11,7 +11,8 @@ export async function createDatabase() {
   const { databaseName } = getDatabaseConfig();
 
   const pool = new Pool({
-    connectionString: `${getConnURI()}/postgres`
+    connectionString: `${getConnURI()}/postgres`,
+    ssl: getDatabaseConfig().ssl
   });
 
   console.log(`Creating database ${databaseName}`);

@@ -1,13 +1,21 @@
 import { loadEnvVars } from '@config/initializers/envVars';
 
 export function getDatabaseConfig() {
-  const { DB_DATABASE, DB_USER, DB_PASSWORD, DB_HOST, DB_SQLLOG } = process.env;
+  const {
+    DB_DATABASE,
+    DB_USER,
+    DB_PASSWORD,
+    DB_HOST,
+    DB_SQLLOG,
+    DB_SSL
+  } = process.env;
   const base = {
     user: DB_USER || 'postgres',
     pass: DB_PASSWORD || 'postgres',
     host: DB_HOST,
     databaseName: DB_DATABASE || 'node_graphql',
-    sqlLog: DB_SQLLOG === 'true'
+    sqlLog: DB_SQLLOG === 'true',
+    ssl: DB_SSL === 'true'
   };
 
   const development = {
