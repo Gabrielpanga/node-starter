@@ -3,7 +3,6 @@
     "outputDirectory": "./",
     "entryFile": "./src/controllers/*.ts",
     "outputFormat": "openapi_3",
-    "host": "localhost:9090",
     "version": "1.0",
     "name": "Node & GraphQL base starter",
     "description": "Node & GraphQL base starter - description",

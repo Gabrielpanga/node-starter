@@ -1,4 +1,4 @@
-basePath: /v1
+basePath: /
 definitions:
     IUser:
         description: ""
@@ -20,10 +20,7 @@ definitions:
                 description: ""
         type: object
         required:
-            - id
             - name
-            - createdAt
-            - updatedAt
     NotFoundError:
         description: "Represents a NOT FOUND error. The server has not found anything matching\nthe Request-URI. No indication is given of whether the condition is temporary\nor permanent. The 410 (GoneError) status code SHOULD be used if the server knows,\nthrough some internally configurable mechanism, that an old resource is permanently\nunavailable and has no forwarding address.\n\nThis error is commonly used when\nthe server does not wish to reveal exactly why the request has been refused,\nor when no other response is applicable."
         properties:
@@ -45,14 +42,24 @@ definitions:
             - message
             - statusCode
             - name
+    CountResponse:
+        description: ""
+        properties:
+            count:
+                type: number
+                format: double
+                description: ""
+        type: object
+        required:
+            - count
 info:
-    description: 'a description'
+    description: 'Node & GraphQL base starter - description'
     license:
         name: MIT
     title: 'Node & GraphQL base starter'
     version: '1.0'
 paths:
-    /v1/users:
+    /users:
         get:
             operationId: UsersList
             produces:
@@ -92,26 +99,8 @@ paths:
                     name: user
                     required: true
                     schema:
-                        type: object
-        put:
-            operationId: UsersUpdate
-            produces:
-                - application/json
-            responses:
-                '204':
-                    description: 'No content'
-            description: ""
-            consumes:
-                - application/json
-            parameters:
-                -
-                    description: ""
-                    in: body
-                    name: user
-                    required: true
-                    schema:
-                        type: object
-    '/v1/users/{id}':
+                        $ref: '#/definitions/IUser'
+    '/users/{id}':
         get:
             operationId: UsersShow
             produces:
@@ -134,17 +123,46 @@ paths:
                     required: true
                     type: number
                     format: double
+        patch:
+            operationId: UsersUpdate
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: 'Update the user that was sent'
+                    schema:
+                        $ref: '#/definitions/IUser'
+            description: 'Updates the user'
+            consumes:
+                - application/json
+            parameters:
+                -
+                    description: 'user primary identifier'
+                    in: path
+                    name: id
+                    required: true
+                    type: number
+                    format: double
+                -
+                    description: ""
+                    in: body
+                    name: user
+                    required: true
+                    schema:
+                        $ref: '#/definitions/IUser'
         delete:
             operationId: UsersDelete
             produces:
                 - application/json
             responses:
-                '204':
-                    description: 'No content'
-            description: ""
+                '200':
+                    description: 'User was deleted'
+                    schema:
+                        $ref: '#/definitions/CountResponse'
+            description: 'Delete the user by its id'
             parameters:
                 -
-                    description: ""
+                    description: 'user primary identifier'
                     in: path
                     name: id
                     required: true
@@ -156,4 +174,5 @@ securityDefinitions:
         type: apiKey
         name: access_token
         in: query
-host: 'localhost:9090'
+schemes:
+    - http

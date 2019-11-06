@@ -1,34 +1,23 @@
-version: '3'
+version: '3.3'
 services:
   db:
-    image: postgres
-    container_name: node-graphql-db
+    image: gabrielcodelitt.azurecr.io/postgres:latest
     environment:
-      POSTGRES_DB: ${DB_DATABASE}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    networks:
-      - node-graphql-api
+      POSTGRES_DB: node_graphql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     expose:
       - 5432
-    ports:
-      - 5432:5432
-
   app:
-    container_name: node-graphql-app
-    image: gabrielcodelitt.azurecr.io/gabrielpanganodestarter_app:latest
-    stdin_open: true
-    networks:
-      - node-graphql-api
-    volumes:
-      - .:/share
-    ports:
-      - 9090:9090
-    depends_on:
-      - db
-
-networks:
-  node-graphql-api:
-
-volumes:
-  postgres-data:
+     image: gabrielcodelitt.azurecr.io/nodestartercodelitt_app:latest
+     ports:
+       - "80:8080"
+     restart: always
+     environment:
+       SERVER_PORT: 8080
+       DB_HOST: db
+       DB_DATABASE: node_graphql
+       DB_USER: postgres
+       DB_PASSWORD: postgres
+     depends_on:
+       - db
