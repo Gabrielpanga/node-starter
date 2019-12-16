@@ -1,4 +1,5 @@
-Tests: [![Build Status](https://dev.azure.com/gabriel0384/gabriel/_apis/build/status/test?branchName=master)](https://dev.azure.com/gabriel0384/gabriel/_build/latest?definitionId=1&branchName=master)
+Tests: 
+[![Build Status](https://dev.azure.com/gabriel0384/gabriel/_apis/build/status/test?branchName=master)](https://dev.azure.com/gabriel0384/gabriel/_build/latest?definitionId=1&branchName=master)
 
 Last release: [![Build Status](https://dev.azure.com/gabriel0384/gabriel/_apis/build/status/build?branchName=master)](https://dev.azure.com/gabriel0384/gabriel/_build/latest?definitionId=2&branchName=master)
 
